@@ -26,4 +26,9 @@ private:
 		UStaticMeshComponent* TurretMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 		USceneComponent* ProjectileSpawnPoint;
+
+protected:
+	void RotateTurret(FVector LookAtTarget);
+	void Fire();
+	virtual void HandleDestruction();
 };

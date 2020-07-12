@@ -29,10 +29,14 @@ private:
 		USpringArmComponent* SpringArm;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 		UCameraComponent* Camera;
-	float moveSpeed = 100.0f;
-	float rotateSpeed = 100.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
+		float moveSpeed = 100.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
+		float rotateSpeed = 100.0f;
 	FVector MoveDirection;
 	FQuat RotationDirection;
+	APlayerController* PlayerControllerRef;
+	FHitResult TraceHitResult;
 	void CalculateMovementInput(float value);
 	void CalculateRotateInput(float value);
 	void Move();
@@ -41,4 +45,5 @@ private:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void HandleDestruction() override;
 };
