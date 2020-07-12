@@ -27,7 +27,7 @@ void APawnBase::RotateTurret(FVector LookAtTarget)
 
 void APawnBase::Fire()
 {
-	if(ProjectileClass)
+	if (ProjectileClass)
 	{
 		FVector SpawnLocation = ProjectileSpawnPoint->GetComponentLocation();
 		FRotator SpawnRotator = ProjectileSpawnPoint->GetComponentRotation();
