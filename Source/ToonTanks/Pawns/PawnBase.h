@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/Pawn.h"
+#include "ToonTanks/Actors/ProjectileBase.h"
+
 #include "PawnBase.generated.h"
 
 UCLASS()
@@ -26,6 +28,8 @@ private:
 		UStaticMeshComponent* TurretMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 		USceneComponent* ProjectileSpawnPoint;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Projectile Type", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AProjectileBase> ProjectileClass;
 
 protected:
 	void RotateTurret(FVector LookAtTarget);
