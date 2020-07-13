@@ -17,6 +17,7 @@ class TOONTANKS_API APawnBase : public APawn
 public:
 	// Sets default values for this pawn's properties
 	APawnBase();
+	void PawnDestroyed();
 
 private:
 	//Root Component

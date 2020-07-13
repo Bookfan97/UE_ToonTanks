@@ -10,12 +10,21 @@ APawnBase::APawnBase()
 	PrimaryActorTick.bCanEverTick = true;
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule Collider"));
 	RootComponent = CapsuleComponent;
+
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Mesh"));
 	BaseMesh->SetupAttachment(RootComponent);
+
 	TurretMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Turret Mesh"));
 	TurretMesh->SetupAttachment(BaseMesh);
+
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"));
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
+
+}
+
+void APawnBase::PawnDestroyed()
+{
+	HandleDestruction();
 }
 
 void APawnBase::RotateTurret(FVector LookAtTarget)
@@ -23,17 +32,20 @@ void APawnBase::RotateTurret(FVector LookAtTarget)
 	FVector StartLocation = TurretMesh->GetComponentLocation();
 	FRotator TurretRotation = UKismetMathLibrary::FindLookAtRotation(StartLocation, FVector(LookAtTarget.X, LookAtTarget.Y, TurretMesh->GetComponentLocation().Z));
 	TurretMesh->SetWorldRotation(TurretRotation);
+
 }
 
 void APawnBase::Fire()
 {
-	if (ProjectileClass)
+	if(ProjectileClass)
 	{
 		FVector SpawnLocation = ProjectileSpawnPoint->GetComponentLocation();
-		FRotator SpawnRotator = ProjectileSpawnPoint->GetComponentRotation();
-		AProjectileBase* TempProjectile = GetWorld()->SpawnActor<AProjectileBase>(ProjectileClass, SpawnLocation, SpawnRotator);
+		FRotator SpawnRotation = ProjectileSpawnPoint->GetComponentRotation();
+
+		AProjectileBase* TempProjectile = GetWorld()->SpawnActor<AProjectileBase>(ProjectileClass, SpawnLocation, SpawnRotation);
 		TempProjectile->SetOwner(this);
 	}
+
 }
 
 void APawnBase::HandleDestruction()

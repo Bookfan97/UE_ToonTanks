@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "ToonTanks/Pawns/PawnTank.h"
+
 #include "TankGameModeBase.generated.h"
 
 /**
@@ -22,6 +24,12 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 		void GameOver(bool PlayerWon);
 private:
+	int32 TargetTurrets = 0;
+	int32 GetTargetTurretCount();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game Loop", meta = (AllowPrivateAccess = "true"))
+		int StartDelay = 3;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player", meta = (AllowPrivateAccess = "true"))
+		APawnTank* PlayerTank;
 	void HandleGameStart();
 	void HandleGameOver(bool PlayerWon);
 };
