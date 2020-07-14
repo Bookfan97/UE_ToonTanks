@@ -1,13 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "ToonTanks/GameModes/TankGameModeBase.h"
-#include "UObject/ObjectMacros.h"
-
 #include "HealthComponent.generated.h"
+
+class ATankGameModeBase;
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class TOONTANKS_API UHealthComponent : public UActorComponent

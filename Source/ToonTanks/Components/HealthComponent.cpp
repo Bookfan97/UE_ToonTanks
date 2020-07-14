@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "HealthComponent.h"
-
+#include "ToonTanks/GameModes/TankGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
@@ -29,7 +29,7 @@ void UHealthComponent::BeginPlay()
 	}
 }
 
-void UHealthComponent::TakeDamage(AActor* DamageActor, float Damage, const UDamageType*, AController* InstigatedBy, AActor* DamageCauser)
+void UHealthComponent::TakeDamage(AActor* DamageActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser)
 {
 	if (Damage == 0 || Health == 0)
 	{

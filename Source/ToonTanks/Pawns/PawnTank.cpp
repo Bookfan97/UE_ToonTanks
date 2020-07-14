@@ -22,7 +22,6 @@ void APawnTank::Tick(float DeltaTime)
 		RotateTurret(HitLocation);
 	}
 }
-
 void APawnTank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -53,14 +52,20 @@ void APawnTank::Rotate()
 	AddActorLocalRotation(RotationDirection, true);
 }
 
+bool APawnTank::GetPlayerAlive()
+{
+	return bAlive;
+}
+
 void APawnTank::BeginPlay()
 {
 	Super::BeginPlay();
 	PlayerControllerRef = Cast<APlayerController>(GetController());
 }
-
 void APawnTank::HandleDestruction()
 {
 	Super::HandleDestruction();
-	Destroy();
+	bAlive = false;
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
 }

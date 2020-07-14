@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "ToonTanks/Pawns/PawnTank.h"
+#include "ToonTanks/PlayerControllers/PlayerControllerBase.h"
 
 #include "TankGameModeBase.generated.h"
 
@@ -26,7 +27,8 @@ public:
 private:
 	int32 TargetTurrets = 0;
 	int32 GetTargetTurretCount();
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game Loop", meta = (AllowPrivateAccess = "true"))
+	APlayerControllerBase* PlayerControllerRef;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Loop", meta = (AllowPrivateAccess = "true"))
 		int StartDelay = 3;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player", meta = (AllowPrivateAccess = "true"))
 		APawnTank* PlayerTank;

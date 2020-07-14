@@ -27,7 +27,7 @@ void APawnTurret::BeginPlay()
 
 void APawnTurret::CheckFireCondition()
 {
-	if (!PlayerPawn)
+	if (!PlayerPawn || !PlayerPawn->GetPlayerAlive())
 	{
 		return;
 	}

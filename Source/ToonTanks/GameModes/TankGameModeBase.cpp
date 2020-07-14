@@ -8,6 +8,7 @@ void ATankGameModeBase::BeginPlay()
 {
 	TargetTurrets = GetTargetTurretCount();
 	PlayerTank = Cast<APawnTank>(UGameplayStatics::GetPlayerPawn(this, 0));
+	PlayerControllerRef = Cast<APlayerControllerBase>(UGameplayStatics::GetPlayerController(this, 0));
 	HandleGameStart();
 	Super::BeginPlay();
 }
@@ -18,6 +19,10 @@ void ATankGameModeBase::ActorDied(AActor* DeadActor)
 	{
 		PlayerTank->PawnDestroyed();
 		HandleGameOver(false);
+		if (PlayerControllerRef)
+		{
+			PlayerControllerRef->SetPlayerEnabledState(false);
+		}
 	}
 	else if (APawnTurret* DestroyedTurret = Cast<APawnTurret>(DeadActor))
 	{
@@ -33,7 +38,7 @@ void ATankGameModeBase::ActorDied(AActor* DeadActor)
 int32 ATankGameModeBase::GetTargetTurretCount()
 {
 	TSubclassOf<APawnTurret> ClassToFind;
-	ClassToFind = Super::StaticClass();
+	ClassToFind = APawnTurret::StaticClass();
 	TArray<AActor*> TurretActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, TurretActors);
 	return TurretActors.Num();
@@ -42,6 +47,13 @@ int32 ATankGameModeBase::GetTargetTurretCount()
 void ATankGameModeBase::HandleGameStart()
 {
 	GameStart();
+	if (PlayerControllerRef)
+	{
+		PlayerControllerRef->SetPlayerEnabledState(false);
+		FTimerHandle PlayerEnableHandle;
+		FTimerDelegate PlayerEnableDelegate = FTimerDelegate::CreateUObject(PlayerControllerRef, &APlayerControllerBase::SetPlayerEnabledState, true);
+		GetWorldTimerManager().SetTimer(PlayerEnableHandle, PlayerEnableDelegate, StartDelay, false);
+	}
 }
 
 void ATankGameModeBase::HandleGameOver(bool PlayerWon)
